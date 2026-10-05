@@ -23,15 +23,15 @@ df = carregar(arquivo)
 # ---------------------------------------------------------------- Nível 1
 st.header("1. Exploração dos dados")
 st.subheader("Primeiras linhas")
-st.dataframe(df.head(10), width="stretch")
+st.dataframe(df.head(10), use_container_width=True)
 
 col_a, col_b = st.columns(2)
 with col_a:
     st.subheader("Resumo estatístico")
-    st.dataframe(df.describe(include="number"), width="stretch")
+    st.dataframe(df.describe(include="number"), use_container_width=True)
 with col_b:
     st.subheader("Valores ausentes por coluna")
-    st.dataframe(df.isna().sum().rename("ausentes"), width="stretch")
+    st.dataframe(df.isna().sum().rename("ausentes"), use_container_width=True)
 
 # Tratamento: preencher avaliacao ausente com a mediana
 mediana_aval = df["avaliacao"].median()
@@ -99,7 +99,7 @@ with abas[0]:
     fig = px.line(mensal, x="mes", y="total", markers=True,
                   title="Faturamento mensal",
                   labels={"mes": "Mês", "total": "Faturamento (R$)"})
-    st.plotly_chart(fig, width="stretch")
+    st.plotly_chart(fig, use_container_width=True)
 
 with abas[1]:
     por_cidade = (filtrado.groupby("cidade", as_index=False)["total"].sum()
@@ -107,7 +107,7 @@ with abas[1]:
     fig = px.bar(por_cidade, x="cidade", y="total", text_auto=".2s",
                  title="Faturamento por cidade",
                  labels={"cidade": "Cidade", "total": "Faturamento (R$)"})
-    st.plotly_chart(fig, width="stretch")
+    st.plotly_chart(fig, use_container_width=True)
 
 with abas[2]:
     top5 = (filtrado.groupby("produto", as_index=False)["quantidade"].sum()
@@ -115,13 +115,13 @@ with abas[2]:
     fig = px.bar(top5, x="quantidade", y="produto", orientation="h", text="quantidade",
                  title="Top 5 produtos mais vendidos (quantidade)",
                  labels={"produto": "Produto", "quantidade": "Unidades vendidas"})
-    st.plotly_chart(fig, width="stretch")
+    st.plotly_chart(fig, use_container_width=True)
 
 with abas[3]:
     pagto = filtrado.groupby("pagamento", as_index=False)["total"].sum()
     fig = px.pie(pagto, names="pagamento", values="total", hole=0.4,
                  title="Participação das formas de pagamento no faturamento")
-    st.plotly_chart(fig, width="stretch")
+    st.plotly_chart(fig, use_container_width=True)
 
 with abas[4]:
     fig = px.density_heatmap(
@@ -132,7 +132,7 @@ with abas[4]:
         color_continuous_scale="YlOrRd",
     )
     fig.update_xaxes(dtick=1)
-    st.plotly_chart(fig, width="stretch")
+    st.plotly_chart(fig, use_container_width=True)
 
 # ---------------------------------------------------------------- Bônus
 with abas[5]:
@@ -167,7 +167,7 @@ with abas[5]:
         else:
             fig = px.box(dados, x=eixo_x, y=eixo_y)
         fig.update_layout(title=f"{tipo}: {eixo_y} por {eixo_x}")
-        st.plotly_chart(fig, width="stretch")
+        st.plotly_chart(fig, use_container_width=True)
     except Exception as e:
         st.error(f"Não foi possível montar esse gráfico: {e}")
 
